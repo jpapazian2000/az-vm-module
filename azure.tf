@@ -23,6 +23,7 @@ resource "azurerm_public_ip" "auchan_public_ip" {
     location                = var.m_az_location
     resource_group_name     = var.m_resource_group_name
     allocation_method       = "Static"
+    sku                     = "Standard" 
 }
 
 resource "azurerm_network_interface" "auchan-nic" {
