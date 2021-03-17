@@ -16,6 +16,10 @@ variable "m_optapplog_size" {
     default = "20"
 }
 
+variable "m_az_zone" {
+    type = number
+}
+
 variable "tags" {
     type = map
 

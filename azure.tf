@@ -64,10 +64,10 @@ resource "azurerm_linux_virtual_machine" "auchan_vm" {
     location                = var.m_az_location
     resource_group_name     = var.m_resource_group_name 
     network_interface_ids   = [ azurerm_network_interface.auchan-nic.id ]
-    size                 = var.m_az_vm_size
+    disk_size_gb            = var.m_az_vm_size
     source_image_id         = var.m_source_image 
-    admin_username = "jerome"
-
+    admin_username          = "jerome"
+    zone                    = var.m_az_zone
     
     boot_diagnostics {
       storage_account_uri = "https://jpapazianstorage.blob.core.windows.net/"
