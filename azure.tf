@@ -67,7 +67,7 @@ resource "azurerm_linux_virtual_machine" "auchan_vm" {
     size                 = var.m_az_vm_size
     source_image_id         = var.m_source_image 
     admin_username = "jerome"
-    admin_password = var.m_az_admin_password
+
     
     boot_diagnostics {
       storage_account_uri = "https://jpapazianstorage.blob.core.windows.net/"

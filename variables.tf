@@ -45,16 +45,6 @@ variable "m_source_image" {
     description = "value of the image to use for templating"
 }
 
-variable "m_az_computer_name" {
-    type        = string
-    description = "os name for the azure vm" 
-}
-
-variable "m_az_admin_password" {
-    type        = string
-    description = "admin password of the centos az vm"
-}
-
 variable "m_az_vm_size" {
     description = "Specifies the size of the virtual machine."
 }
