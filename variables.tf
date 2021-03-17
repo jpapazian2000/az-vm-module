@@ -49,22 +49,6 @@ variable "m_az_vm_size" {
     description = "Specifies the size of the virtual machine."
 }
 
-variable "m_az_image_publisher" {
-  description = "Name of the publisher of the image (az vm image list)"
-}
-
-variable "m_az_image_offer" {
-  description = "Name of the offer (az vm image list)"
-}
-
-variable "m_az_image_sku" {
-  description = "Image SKU to apply (az vm image list)"
-}
-
-variable "m_az_image_version" {
-  description = "Version of the image to apply (az vm image list)"
-}
-
 variable "m_az_image_data_disk_size" {
   description = "size of the data disk image in gb"
 }
