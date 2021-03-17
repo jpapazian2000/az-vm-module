@@ -94,7 +94,7 @@ resource "azurerm_managed_disk" "p6_64" {
     //source_resource_id      = data.azurerm_managed_disk.p6_64_image.id 
     create_option           = "Empty"
     disk_size_gb            = "64"
-    zones = [ "var.zone" ]
+    zones = [ var.zone ]
     }
     
 
