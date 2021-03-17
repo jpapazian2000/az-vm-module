@@ -5,33 +5,33 @@ locals {
   meti_size = "${local.meti_size1}%"
 }
 resource "azurerm_virtual_network" "auchan_vnet" {
-    name                    = "${var.m_az_project}-network"
+    name                    = "${var.m_az_project}-network-zone-${var.m_az_zone}"
     address_space           = ["10.10.0.0/16"]
     location                = var.m_az_location
     resource_group_name     = var.m_resource_group_name
 }
 
 resource "azurerm_subnet" "auchan_subnet" {
-    name                    = "auchan_internal_subnet"
+    name                    = "auchan_internal_subnet-zone-${var.m_az_zone}"
     resource_group_name     = var.m_resource_group_name
     virtual_network_name    = azurerm_virtual_network.auchan_vnet.name
     address_prefixes        = ["10.10.10.0/24"]
 }
 
 resource "azurerm_public_ip" "auchan_public_ip" {
-    name                    = "${var.m_az_project}-public_ip"
+    name                    = "${var.m_az_project}-public_ip-zone-${var.m_az_zone}"
     location                = var.m_az_location
     resource_group_name     = var.m_resource_group_name
     allocation_method       = "Static"
 }
 
 resource "azurerm_network_interface" "auchan-nic" {
-    name                    = "${var.m_az_project}-nic"
+    name                    = "${var.m_az_project}-nic-zone-${var.m_az_zone}"
     location                = var.m_az_location
     resource_group_name     = var.m_resource_group_name
 
     ip_configuration {
-      name                  = "auchan-ARI-nic-config"
+      name                  = "auchan-ARI-nic-config-zone-${var.m_az_zone}"
       subnet_id             = azurerm_subnet.auchan_subnet.id
       private_ip_address_allocation = "Dynamic"
       public_ip_address_id  = azurerm_public_ip.auchan_public_ip.id
@@ -39,7 +39,7 @@ resource "azurerm_network_interface" "auchan-nic" {
 }
 
 resource "azurerm_network_security_group" "ari-vm-sg" {
-  name                           = "${var.m_az_project}-sg"
+  name                           = "${var.m_az_project}-sg-zone-${var.m_az_zone}"
   location                       = var.m_az_location
   resource_group_name            = var.m_resource_group_name
 
