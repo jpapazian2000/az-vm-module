@@ -86,7 +86,7 @@ resource "azurerm_linux_virtual_machine" "auchan_vm" {
 }
 
 resource "azurerm_managed_disk" "p6_64" {
-    name                    = "data_disk1"
+    name                    = "data_disk1-vm-zone-${var.m_az_zone}"
     location                = var.m_az_location
     resource_group_name     = var.m_resource_group_name
     storage_account_type    = "Standard_LRS"
