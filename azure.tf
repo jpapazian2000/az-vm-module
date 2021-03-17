@@ -60,7 +60,7 @@ resource "azurerm_network_security_group" "ari-vm-sg" {
 
 //DEFINITION OF THE RESOURCE WITH AZURERM_LINUX_VIRTUAL_MACHINE
 resource "azurerm_linux_virtual_machine" "auchan_vm" {
-    name                    = "${var.m_az_project}-vm"
+    name                    = "${var.m_az_project}-vm-zone-${var.m_az_zone}"
     location                = var.m_az_location
     resource_group_name     = var.m_resource_group_name 
     network_interface_ids   = [ azurerm_network_interface.auchan-nic.id ]
