@@ -41,7 +41,7 @@ resource "azurerm_network_interface" "auchan-nic" {
 }
 
 resource "azurerm_network_security_group" "ari-vm-sg" {
-  name                           = "${var.m_az_project}-sg-zone-${var.m_az_zone}"
+  name                           = "${var.m_az_project}-sg"
   location                       = var.m_az_location
   resource_group_name            = var.m_resource_group_name
 
