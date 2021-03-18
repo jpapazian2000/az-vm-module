@@ -15,7 +15,8 @@ resource "azurerm_subnet" "auchan_subnet" {
     name                    = "auchan_internal_subnet-zone-${var.m_az_zone}"
     resource_group_name     = var.m_resource_group_name
     virtual_network_name    = azurerm_virtual_network.auchan_vnet.name
-    address_prefixes        = ["10.10.10.0/24"]
+    //address_prefixes        = ["10.10.10.0/24"]
+    address_prefixes        = (var.m_az_zone == 1 ? ["10.10.10.0/24"] : ["10.10.20.0/24"] )
 }
 
 resource "azurerm_public_ip" "auchan_public_ip" {
