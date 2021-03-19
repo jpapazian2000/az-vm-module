@@ -1,7 +1,7 @@
 
 locals {
   opt_size = format("${var.m_opt_size}%s", "%")
-  meti_size = format("%s%", sum([var.m_opt_size,var.m_meti_size]))
+  meti_size = format("%s%s", sum([var.m_opt_size,var.m_meti_size]), "%")
   //meti_size = "${local.meti_size1}%"
 }
 resource "azurerm_virtual_network" "auchan_vnet" {
