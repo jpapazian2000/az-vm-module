@@ -1,8 +1,8 @@
 
 locals {
   opt_size = format("${var.m_opt_size}%s", "%")
-  meti_size1 = sum([var.m_opt_size,var.m_meti_size])
-  meti_size = "${local.meti_size1}%"
+  meti_size = format("%s%", sum([var.m_opt_size,var.m_meti_size]))
+  //meti_size = "${local.meti_size1}%"
 }
 resource "azurerm_virtual_network" "auchan_vnet" {
     name                    = "${var.m_az_project}-network-zone-${var.m_az_zone}"
@@ -55,6 +55,18 @@ resource "azurerm_network_security_group" "ari-vm-sg" {
     source_port_range            = "*"
     destination_address_prefix   = "*"
     destination_port_range       = "22"
+    source_address_prefix        = var.m_az_ssh_allowed_ip
+  }
+    security_rule {
+    name                         = "TOMCAT"
+    description                  = "allows tomcat access from knonw IPs only"
+    protocol                     = "TCP"
+    access                       = "Allow"
+    priority                     = 110
+    direction                    = "Inbound"
+    source_port_range            = "*"
+    destination_address_prefix   = "*"
+    destination_port_range       = "8080"
     source_address_prefix        = var.m_az_ssh_allowed_ip
   }
 }
