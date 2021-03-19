@@ -57,7 +57,12 @@ resource "azurerm_network_security_group" "ari-vm-sg" {
     destination_port_range       = "22"
     source_address_prefix        = var.m_az_ssh_allowed_ip
   }
-} 
+}
+
+resource "azurerm_network_interface_security_group_association" "auchan-nic-sg" {
+  network_interface_id          = azurerm_network_interface.auchan-nic.id
+  network_security_group_id     = azurerm_network_security_group.ari-vm-sg.id
+}
 
 
 //DEFINITION OF THE RESOURCE WITH AZURERM_LINUX_VIRTUAL_MACHINE
