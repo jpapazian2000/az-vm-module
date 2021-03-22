@@ -4,22 +4,22 @@ locals {
   meti_size = format("%s%s", sum([var.m_opt_size,var.m_meti_size]), "%")
 }
 
-resource "azurerm_virtual_network" "project_vnet" {
+resource "azurerm_virtual_network" "auchan_vnet" {
     name                    = "${var.m_az_project}-network-zone-${var.m_az_zone}"
     address_space           = ["10.10.0.0/16"]
     location                = var.m_az_location
     resource_group_name     = var.m_resource_group_name
 }
 
-resource "azurerm_subnet" "project_subnet" {
-    name                    = "project_internal_subnet-zone-${var.m_az_zone}"
+resource "azurerm_subnet" "auchan_subnet" {
+    name                    = "auchan_internal_subnet-zone-${var.m_az_zone}"
     resource_group_name     = var.m_resource_group_name
-    virtual_network_name    = azurerm_virtual_network.project_vnet.name
+    virtual_network_name    = azurerm_virtual_network.auchan_vnet.name
     //address_prefixes        = ["10.10.10.0/24"]
     address_prefixes        = (var.m_az_zone == 1 ? ["10.10.10.0/24"] : ["10.10.20.0/24"] )
 }
 
-resource "azurerm_public_ip" "project_public_ip" {
+resource "azurerm_public_ip" "auchan_public_ip" {
     name                    = "${var.m_az_project}-public_ip-zone-${var.m_az_zone}"
     location                = var.m_az_location
     resource_group_name     = var.m_resource_group_name
@@ -27,16 +27,16 @@ resource "azurerm_public_ip" "project_public_ip" {
     sku                     = "Standard" 
 }
 
-resource "azurerm_network_interface" "project-nic" {
+resource "azurerm_network_interface" "auchan-nic" {
     name                    = "${var.m_az_project}-nic-zone-${var.m_az_zone}"
     location                = var.m_az_location
     resource_group_name     = var.m_resource_group_name
 
     ip_configuration {
       name                  = "project-ARI-nic-config-zone-${var.m_az_zone}"
-      subnet_id             = azurerm_subnet.project_subnet.id
+      subnet_id             = azurerm_subnet.auchan_subnet.id
       private_ip_address_allocation = "Dynamic"
-      public_ip_address_id  = azurerm_public_ip.project_public_ip.id
+      public_ip_address_id  = azurerm_public_ip.auchan_public_ip.id
     }
 }
 
@@ -71,20 +71,20 @@ resource "azurerm_network_security_group" "ari-vm-sg" {
   }
 }
 
-resource "azurerm_network_interface_security_group_association" "project-nic-sg" {
-  network_interface_id          = azurerm_network_interface.project-nic.id
+resource "azurerm_network_interface_security_group_association" "auchan-nic-sg" {
+  network_interface_id          = azurerm_network_interface.auchan-nic.id
   network_security_group_id     = azurerm_network_security_group.ari-vm-sg.id
 }
 
 
 //DEFINITION OF THE RESOURCE WITH AZURERM_LINUX_VIRTUAL_MACHINE
-resource "azurerm_linux_virtual_machine" "project_vm" {
+resource "azurerm_linux_virtual_machine" "auchan_vm" {
     name                    = "${var.m_az_project}-vm-zone-${var.m_az_zone}"
     location                = var.m_az_location
-    resource_group_name     = var.m_resource_group_name 
-    network_interface_ids   = [ azurerm_network_interface.project-nic.id ]
+    resource_group_name     = var.m_resource_group_name
+    network_interface_ids   = [ azurerm_network_interface.auchan-nic.id ]
     size                    = var.m_az_vm_size
-    source_image_id         = var.m_source_image 
+    source_image_id         = var.m_source_image
     admin_username          = "jerome"
     zone                    = var.m_az_zone
     
@@ -117,7 +117,7 @@ resource "azurerm_managed_disk" "p6_64" {
     
 
 resource "azurerm_virtual_machine_data_disk_attachment" "p6_64" {
-    virtual_machine_id      = azurerm_linux_virtual_machine.project_vm.id
+    virtual_machine_id      = azurerm_linux_virtual_machine.auchan_vm.id
     managed_disk_id         = azurerm_managed_disk.p6_64.id
     lun                     = "0"
     caching                 = "ReadWrite"
