@@ -89,7 +89,8 @@ resource "azurerm_linux_virtual_machine" "project_vm" {
     zone                    = var.m_az_zone
     
     boot_diagnostics {
-      storage_account_uri = "https://jpapazian.blob.core.windows.net/"
+      storage_account_uri = "https://jpapazianwestemea.blob.core.windows.net/"
+      //storage_account_uri = "https://jpapazian.blob.core.windows.net/"
     }
   
     custom_data = base64encode(templatefile("${path.module}/mount_script.cfg", { opt = local.opt_size, meti = local.meti_size}))
